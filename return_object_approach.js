@@ -3,6 +3,7 @@ const createTimer = (timeInput, playBtn, pauseBtn, callbacks) => {
         timeInput: timeInput,
         playBtn: playBtn,
         pauseBtn: pauseBtn,
+        timerRunning = false,
         initialize() {
             if (callbacks) {
                 this.onStart = callbacks.onStart;
@@ -14,13 +15,17 @@ const createTimer = (timeInput, playBtn, pauseBtn, callbacks) => {
             this.pauseBtn.addEventListener('click', this.pause.bind(this));
         },
         start() {
-            if (this.onStart) {
-                this.onStart();
-              }
-            this.interval = setInterval(() => this.tick(), 1000);
+            if (!this.timerRunning) {
+                if (this.onStart) {
+                    this.onStart();
+                }
+                this.interval = setInterval(() => this.tick(), 1000);
+                this.timerRunning = true;
+            };
         },
         pause() {
             clearInterval(this.interval);
+            this.timerRunning = false;
         },
         tick() {
             if (parseFloat(this.timeInput.value) <= 0) {
