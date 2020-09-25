@@ -1,0 +1,26 @@
+#timer {
+    width: 200px;
+    height: 200px;
+    position: relative;
+}
+
+#circle {
+    position: absolute;
+    z-index: 1;
+}
+
+#fields {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-content: center;
+    height: 100%;
+    z-index: 2;
+}
+
+#time {
+    text-align: center;
+    border: none;
+    background: transparent;
+}

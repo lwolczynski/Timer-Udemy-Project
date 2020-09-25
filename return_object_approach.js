@@ -1,9 +1,10 @@
 const createTimer = (timeInput, playBtn, pauseBtn, callbacks) => {
     return {
         timeInput: timeInput,
+        timeAtStart: timeInput,
         playBtn: playBtn,
         pauseBtn: pauseBtn,
-        timerRunning = false,
+        timerRunning: false,
         initialize() {
             if (callbacks) {
                 this.onStart = callbacks.onStart;
@@ -18,8 +19,9 @@ const createTimer = (timeInput, playBtn, pauseBtn, callbacks) => {
             if (!this.timerRunning) {
                 if (this.onStart) {
                     this.onStart();
+                    this.timeAtStart = this.timeInput.value;
                 }
-                this.interval = setInterval(() => this.tick(), 1000);
+                this.interval = setInterval(() => this.tick(), 10);
                 this.timerRunning = true;
             };
         },
@@ -34,7 +36,7 @@ const createTimer = (timeInput, playBtn, pauseBtn, callbacks) => {
                     this.onComplete();
                 }
             } else {
-                this.timeInput.value = parseFloat(this.timeInput.value) - 1;
+                this.timeInput.value = (parseFloat(this.timeInput.value) - 0.01).toFixed(2);
                 if (this.onTick) {
                     this.onTick();
                 }
@@ -46,13 +48,19 @@ const createTimer = (timeInput, playBtn, pauseBtn, callbacks) => {
 const timeInput = document.querySelector('input');
 const playBtn = document.querySelector('#play');
 const pauseBtn = document.querySelector('#pause');
+const circle = document.querySelector('circle');
 
+const perimeter = 2*circle.getAttribute('r')*Math.PI;
+circle.setAttribute('stroke-dasharray', perimeter);
+
+let currentOffset = 0;
 const timer = createTimer(timeInput, playBtn, pauseBtn, {
     onStart() {
     	console.log('Timer started');
     },
     onTick() {
-    	console.log('Timer just ticked down');
+        currentOffset = (perimeter*this.timeInput.value/this.timeAtStart) - perimeter;
+        circle.setAttribute('stroke-dashoffset', currentOffset);
     },
     onComplete() {
     	console.log('Timer is completed');

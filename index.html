@@ -9,18 +9,25 @@
         <title></title>
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
         <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     </head>
     <body>
-        <svg height="200" width="200">
-            <circle r="90" cx="100" cy="100" fill="transparent" stroke="black" stroke-width="5"></circle>
-        </svg>
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <input id="time" value="30">
-        <button id="pause"><i class="fas fa-pause" aria-hidden="true"></i></button>
-        <button id="play"><i class="fas fa-play" aria-hidden="true"></i></button>
+        <div id="timer">
+            <div id="circle">
+                <svg height="200" width="200">
+                    <circle r="90" cx="100" cy="100" fill="transparent" stroke="black" stroke-width="5" transform="rotate(-90 100 100)"></circle>
+                </svg>
+            </div>
+            <div id="fields">
+                <input id="time" value="30">
+                <button id="pause"><i class="fas fa-pause" aria-hidden="true"></i></button>
+                <button id="play"><i class="fas fa-play" aria-hidden="true"></i></button>
+            </div>
+        </div>
         <!-- <script src="class_approach.js"></script> -->
         <!-- <script src="class_approach_per_intructions.js"></script> -->
         <script src="class_approach_per_instructions.js"></script>

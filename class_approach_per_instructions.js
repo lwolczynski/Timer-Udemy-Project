@@ -1,6 +1,7 @@
 class Timer {
     constructor(timeInput, playBtn, pauseBtn, callbacks) {
 		this.timeInput = timeInput;
+		this.timeAtStart = timeInput;
 		this.playBtn = playBtn;
 		this.pauseBtn = pauseBtn;
 		this.timerRunning = false;
@@ -18,8 +19,9 @@ class Timer {
 		if (!this.timerRunning) {
 			if (this.onStart) {
 				this.onStart();
+				this.timeAtStart = this.timeRemaining;
 			}
-			this.interval = setInterval(this.tick, 1000);
+			this.interval = setInterval(this.tick, 10);
 			this.timerRunning = true;
 		};
     };
@@ -36,7 +38,7 @@ class Timer {
 				this.onComplete();
 			}
       	} else {
-        	this.timeRemaining = this.timeRemaining - 1;
+        	this.timeRemaining = this.timeRemaining - 0.01;
         	if (this.onTick) {
          		this.onTick();
         	}
@@ -48,20 +50,26 @@ class Timer {
     }
   
     set timeRemaining(time) {
-    	this.timeInput.value = time;
+    	this.timeInput.value = time.toFixed(2);
     }
 }
   
 const timeInput = document.querySelector('input');
 const playBtn = document.querySelector('#play');
 const pauseBtn = document.querySelector('#pause');
-  
+const circle = document.querySelector('circle');
+
+const perimeter = 2*circle.getAttribute('r')*Math.PI;
+circle.setAttribute('stroke-dasharray', perimeter);
+
+let currentOffset = 0;
 const timer = new Timer(timeInput, playBtn, pauseBtn, {
     onStart() {
     	console.log('Timer started');
     },
     onTick() {
-    	console.log('Timer just ticked down');
+		currentOffset = (perimeter*this.timeRemaining/this.timeAtStart) - perimeter;
+		circle.setAttribute('stroke-dashoffset', currentOffset);
     },
     onComplete() {
     	console.log('Timer is completed');
